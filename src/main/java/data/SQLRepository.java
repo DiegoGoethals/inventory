@@ -17,6 +17,7 @@ public class SQLRepository {
   Logger LOGGER = Logger.getLogger(SQLRepository.class.getName());
   private static final String SQL_SELECT_ALL_PRODUCTS = "select * from products";
   private static final String SQL_ADD_PRODUCT = "insert into products(name, quantity) values(?, ?)";
+  private static final String SQL_SELECT_FILTERED_PRODUCTS = "select * from products WHERE name LIKE ?";
 
   public void addProduct(Product product) throws SQLException {
     if (checkIfExists(product.getName())) {
@@ -73,6 +74,22 @@ public class SQLRepository {
       prep.setString(1, Integer.toString(quantity));
       prep.setString(2, product.getName());
       prep.executeUpdate();
+    } catch (SQLException ex) {
+      LOGGER.log(Level.SEVERE, "A database error occured.", ex);
+      throw new RuntimeException("A database error occured.");
+    }
+  }
+
+  public List<Product> getFilteredProducts(String name) {
+    try (Connection connection = SQLConnection.getConnection();
+         PreparedStatement prep = connection.prepareStatement(SQL_SELECT_FILTERED_PRODUCTS)) {
+      prep.setString(1, "%" + name + "%");
+      ResultSet rs = prep.executeQuery();
+      List<Product> products = new ArrayList<>();
+      while (rs.next()) {
+        products.add(resultSetToProduct(rs));
+      }
+      return products;
     } catch (SQLException ex) {
       LOGGER.log(Level.SEVERE, "A database error occured.", ex);
       throw new RuntimeException("A database error occured.");

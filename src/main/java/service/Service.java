@@ -27,4 +27,8 @@ public class Service {
   public void changeQuantity(Product product, int quantity) {
     repo.changeQuantity(product, quantity);
   }
+
+  public List<Product> getFilteredProducts(String filter) {
+    return repo.getFilteredProducts(filter);
+  }
 }

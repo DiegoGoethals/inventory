@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
@@ -35,4 +36,13 @@
          </children>
       </VBox>
    </right>
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Search: " />
+            <TextField fx:id="txtSearch" text="Enter item here" />
+            <Button mnemonicParsing="false" onAction="#searchItems" text="Search" />
+         </children>
+      </HBox>
+   </top>
 </BorderPane>
