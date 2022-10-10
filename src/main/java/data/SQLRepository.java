@@ -19,14 +19,18 @@ public class SQLRepository {
   private static final String SQL_ADD_PRODUCT = "insert into products(name, quantity) values(?, ?)";
 
   public void addProduct(Product product) throws SQLException {
-    try (Connection connection = SQLConnection.getConnection();
-         PreparedStatement prep = connection.prepareStatement(SQL_ADD_PRODUCT)) {
-      prep.setString(1, product.getName());
-      prep.setInt(2, product.getQuantity());
-      prep.executeUpdate();
-    } catch (SQLException ex) {
-      LOGGER.log(Level.SEVERE, "A database error occured.", ex);
-      throw new RuntimeException("A database error occured.");
+    if (checkIfExists(product.getName())) {
+      changeQuantity(product, product.getQuantity());
+    } else{
+      try (Connection connection = SQLConnection.getConnection();
+           PreparedStatement prep = connection.prepareStatement(SQL_ADD_PRODUCT)) {
+        prep.setString(1, product.getName());
+        prep.setInt(2, product.getQuantity());
+        prep.executeUpdate();
+      } catch (SQLException ex) {
+        LOGGER.log(Level.SEVERE, "A database error occured.", ex);
+        throw new RuntimeException("A database error occured.");
+      }
     }
   }
 
@@ -48,5 +52,30 @@ public class SQLRepository {
   private Product resultSetToProduct(ResultSet rs) throws SQLException {
     return new Product(rs.getString("name"),
       rs.getInt("quantity"));
+  }
+
+  public boolean checkIfExists(String name) throws SQLException {
+    int count = 0;
+    ResultSet rset;
+    try(Connection connection = SQLConnection.getConnection();
+        PreparedStatement prep = connection.prepareStatement("SELECT Count(name) from products WHERE name=?")) {
+      prep.setString(1, name);
+      rset = prep.executeQuery();
+      if (rset.next())
+        count = rset.getInt(1);
+      return count > 0;
+    }
+  }
+
+  public void changeQuantity(Product product, int quantity) {
+    try(Connection connection = SQLConnection.getConnection();
+        PreparedStatement prep = connection.prepareStatement("UPDATE products SET quantity = quantity + ? WHERE name = ?")) {
+      prep.setString(1, Integer.toString(quantity));
+      prep.setString(2, product.getName());
+      prep.executeUpdate();
+    } catch (SQLException ex) {
+      LOGGER.log(Level.SEVERE, "A database error occured.", ex);
+      throw new RuntimeException("A database error occured.");
+    }
   }
 }

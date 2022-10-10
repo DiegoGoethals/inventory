@@ -20,10 +20,6 @@ public class Product {
     return quantity;
   }
 
-  public void increaseQuantity(int amount) {
-    quantity += amount;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
