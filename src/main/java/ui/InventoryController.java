@@ -1,5 +1,7 @@
 package ui;
 
+import domain.Inventory;
+import domain.InventoryHolder;
 import domain.Product;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -18,6 +20,7 @@ public class InventoryController {
   private final InventoryService inventoryService;
   private boolean filtered;
   private String filter;
+  private final Inventory inventory;
   @FXML TableView<Product> tblProducts;
   @FXML TableColumn<Product, String> tblclmName;
   @FXML TableColumn<Product, Integer> tblclmQuantity;
@@ -30,6 +33,7 @@ public class InventoryController {
     inventoryService = new InventoryService();
     filtered = false;
     filter = "";
+    this.inventory = InventoryHolder.getInstance().getInventory();
   }
 
   @FXML
@@ -42,11 +46,11 @@ public class InventoryController {
 
   public void getAllProducts() {
     filtered = false;
-    tblProducts.setItems(FXCollections.observableList(inventoryService.getProducts()));
+    tblProducts.setItems(FXCollections.observableList(inventoryService.getProducts(inventory)));
   }
 
   public void getFilteredProducts() {
-    tblProducts.setItems(FXCollections.observableList(inventoryService.getFilteredProducts(filter)));
+    tblProducts.setItems(FXCollections.observableList(inventoryService.getFilteredProducts(filter, inventory)));
   }
 
   public void updateTable() {

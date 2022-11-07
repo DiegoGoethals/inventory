@@ -7,7 +7,7 @@ import java.util.List;
 
 public class HomeService {
 
-  private HomeSQLRepository repo;
+  private final HomeSQLRepository repo;
 
   public HomeService() {
     repo = new HomeSQLRepository();

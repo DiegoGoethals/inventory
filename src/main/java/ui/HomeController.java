@@ -1,7 +1,7 @@
 package ui;
 
-import data.ProductSQLRepository;
 import domain.Inventory;
+import domain.InventoryHolder;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,12 +46,14 @@ public class HomeController {
   }
 
   public void openInventory() {
+    Inventory inventory = lstInventories.getSelectionModel().getSelectedItem();
     try {
+      InventoryHolder.getInstance().setInventory(inventory);
       FXMLLoader fxmlLoader = new FXMLLoader();
       fxmlLoader.setLocation(getClass().getResource("/fxml/inventory.fxml"));
       Scene scene = new Scene(fxmlLoader.load());
       Stage stage = new Stage();
-      stage.setTitle(lstInventories.getSelectionModel().getSelectedItem().getName());
+      stage.setTitle(inventory.getName());
       stage.setScene(scene);
       stage.show();
     } catch (IOException e) {

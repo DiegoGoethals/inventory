@@ -1,11 +1,8 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Inventory {
 
-  private String name;
+  private final String name;
   private int productCount;
 
   public Inventory(String name, int productCount) {

@@ -1,6 +1,7 @@
 package data;
 
 import data.util.SQLConnection;
+import domain.Inventory;
 import domain.Product;
 
 import java.sql.Connection;
@@ -15,9 +16,9 @@ import java.util.logging.Logger;
 public class ProductSQLRepository {
 
   Logger LOGGER = Logger.getLogger(ProductSQLRepository.class.getName());
-  private static final String SQL_SELECT_ALL_PRODUCTS = "select * from products";
+  private static final String SQL_SELECT_ALL_PRODUCTS = "select * from products WHERE inventory = '";
   private static final String SQL_ADD_PRODUCT = "insert into products(name, quantity) values(?, ?)";
-  private static final String SQL_SELECT_FILTERED_PRODUCTS = "select * from products WHERE name LIKE ?";
+  private static final String SQL_SELECT_FILTERED_PRODUCTS = "select * from products WHERE name LIKE ? AND inventory = '";
 
   public void addProduct(Product product) throws SQLException {
     if (checkIfExists(product.getName())) {
@@ -35,9 +36,9 @@ public class ProductSQLRepository {
     }
   }
 
-  public List<Product> getProducts() {
+  public List<Product> getProducts(Inventory inventory) {
     try (Connection connection = SQLConnection.getConnection();
-         PreparedStatement prep = connection.prepareStatement(SQL_SELECT_ALL_PRODUCTS);
+         PreparedStatement prep = connection.prepareStatement(SQL_SELECT_ALL_PRODUCTS + inventory.getName() + "'");
          ResultSet rs = prep.executeQuery()) {
       List<Product> products = new ArrayList<>();
       while (rs.next()) {
@@ -80,9 +81,9 @@ public class ProductSQLRepository {
     }
   }
 
-  public List<Product> getFilteredProducts(String name) {
+  public List<Product> getFilteredProducts(String name, Inventory inventory) {
     try (Connection connection = SQLConnection.getConnection();
-         PreparedStatement prep = connection.prepareStatement(SQL_SELECT_FILTERED_PRODUCTS)) {
+         PreparedStatement prep = connection.prepareStatement(SQL_SELECT_FILTERED_PRODUCTS + inventory.getName() + "'")) {
       prep.setString(1, "%" + name + "%");
       ResultSet rs = prep.executeQuery();
       List<Product> products = new ArrayList<>();
