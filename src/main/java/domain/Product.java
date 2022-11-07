@@ -9,7 +9,7 @@ public class Product {
 
   private final String name;
   private int quantity;
-  private final ImageView image;
+  private ImageView image;
 
   public Product(String name, int quantity, String imageURL) {
     this.name = name;

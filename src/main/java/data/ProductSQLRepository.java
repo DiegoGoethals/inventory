@@ -98,4 +98,16 @@ public class ProductSQLRepository {
       throw new RuntimeException("A database error occured.");
     }
   }
+
+  public void addImage(String url, Product product) {
+    try(Connection connection = SQLConnection.getConnection();
+        PreparedStatement prep = connection.prepareStatement("UPDATE products SET image = ? WHERE name = ?")) {
+      prep.setString(1, url);
+      prep.setString(2, product.getName());
+      prep.executeUpdate();
+    } catch (SQLException ex) {
+      LOGGER.log(Level.SEVERE, "A database error occured.", ex);
+      throw new RuntimeException("A database error occured.");
+    }
+  }
 }

@@ -32,4 +32,8 @@ public class InventoryService {
   public List<Product> getFilteredProducts(String filter, Inventory inventory) {
     return repo.getFilteredProducts(filter, inventory);
   }
+
+  public void addImage(String url, Product product) {
+    repo.addImage(url, product);
+  }
 }

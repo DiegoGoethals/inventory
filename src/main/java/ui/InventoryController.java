@@ -28,6 +28,7 @@ public class InventoryController {
   @FXML TextField txtName;
   @FXML TextField txtQuantity;
   @FXML TextField txtSearch;
+  @FXML TextField txtImage;
 
   public InventoryController() {
     inventoryService = new InventoryService();
@@ -90,5 +91,12 @@ public class InventoryController {
 
   public void emptyText() {
     txtSearch.setText("");
+  }
+
+  public void addImage() {
+    String url = txtImage.getText();
+    Product product = tblProducts.getSelectionModel().getSelectedItem();
+    inventoryService.addImage(url, product);
+    tblProducts.refresh();
   }
 }
