@@ -2,6 +2,7 @@ package data;
 
 import data.util.SQLConnection;
 import domain.Inventory;
+import domain.InventoryHolder;
 import domain.Product;
 
 import java.sql.Connection;
@@ -17,7 +18,7 @@ public class ProductSQLRepository {
 
   Logger LOGGER = Logger.getLogger(ProductSQLRepository.class.getName());
   private static final String SQL_SELECT_ALL_PRODUCTS = "select * from products WHERE inventory = '";
-  private static final String SQL_ADD_PRODUCT = "insert into products(name, quantity) values(?, ?)";
+  private static final String SQL_ADD_PRODUCT = "insert into products(name, quantity, inventory) values(?, ?, ?)";
   private static final String SQL_SELECT_FILTERED_PRODUCTS = "select * from products WHERE name LIKE ? AND inventory = '";
 
   public void addProduct(Product product) throws SQLException {
@@ -28,6 +29,7 @@ public class ProductSQLRepository {
            PreparedStatement prep = connection.prepareStatement(SQL_ADD_PRODUCT)) {
         prep.setString(1, product.getName());
         prep.setInt(2, product.getQuantity());
+        prep.setString(3, InventoryHolder.getInstance().getInventory().getName());
         prep.executeUpdate();
       } catch (SQLException ex) {
         LOGGER.log(Level.SEVERE, "A database error occured.", ex);
