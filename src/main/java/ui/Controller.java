@@ -8,22 +8,21 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
+import javafx.scene.image.ImageView;
 import service.Service;
-import ui.customComponents.ImageCell;
 import util.ProductException;
 
 import java.sql.SQLException;
 
 public class Controller {
 
-  private Service service;
+  private final Service service;
   private boolean filtered;
   private String filter;
   @FXML TableView<Product> tblProducts;
-  @FXML TableColumn<String, Product> tblclmName;
-  @FXML TableColumn<Integer, Product> tblclmQuantity;
-  @FXML TableColumn<String, Product> tblclmImage;
+  @FXML TableColumn<Product, String> tblclmName;
+  @FXML TableColumn<Product, Integer> tblclmQuantity;
+  @FXML TableColumn<Product, ImageView> tblclmImage;
   @FXML TextField txtName;
   @FXML TextField txtQuantity;
   @FXML TextField txtSearch;
@@ -36,10 +35,9 @@ public class Controller {
 
   @FXML
   public void initialize() {
-    int index = 0;
     tblclmName.setCellValueFactory(new PropertyValueFactory<>("name"));
     tblclmQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-    tblclmImage.setCellFactory(param -> new ImageCell(tblProducts.getItems().get(index)));
+    tblclmImage.setCellValueFactory(new PropertyValueFactory<>("image"));
     updateTable();
   }
 
