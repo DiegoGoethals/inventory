@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SQLRepository {
+public class ProductSQLRepository {
 
-  Logger LOGGER = Logger.getLogger(SQLRepository.class.getName());
+  Logger LOGGER = Logger.getLogger(ProductSQLRepository.class.getName());
   private static final String SQL_SELECT_ALL_PRODUCTS = "select * from products";
   private static final String SQL_ADD_PRODUCT = "insert into products(name, quantity) values(?, ?)";
   private static final String SQL_SELECT_FILTERED_PRODUCTS = "select * from products WHERE name LIKE ?";

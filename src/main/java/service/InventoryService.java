@@ -1,19 +1,19 @@
 package service;
 
-import data.SQLRepository;
+import data.ProductSQLRepository;
 import domain.Product;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Service {
+public class InventoryService {
 
-  private SQLRepository repo;
-  private static final Logger LOGGER = Logger.getLogger(Service.class.getName());
+  private ProductSQLRepository repo;
+  private static final Logger LOGGER = Logger.getLogger(InventoryService.class.getName());
 
-  public Service() {
-    repo = new SQLRepository();
+  public InventoryService() {
+    repo = new ProductSQLRepository();
   }
 
   public void addProduct(Product product) throws SQLException {

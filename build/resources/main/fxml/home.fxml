@@ -2,48 +2,23 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.HomeController">
    <center>
-      <TableView fx:id="tblProducts" prefHeight="348.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <columns>
-            <TableColumn fx:id="tblclmName" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="tblclmImage" prefWidth="75.0" text="Image" />
-            <TableColumn fx:id="tblclmQuantity" prefWidth="75.0" text="Quantity" />
-         </columns></TableView>
+      <ListView fx:id="lstInventories" onMouseClicked="#openInventory" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <VBox prefHeight="104.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
+            <Label text="Create new inventory" />
             <Label text="Name" />
-            <TextField fx:id="txtName" prefHeight="200.0" prefWidth="200.0" />
-            <Label text="Quantity" />
-            <TextField fx:id="txtQuantity" prefHeight="200.0" prefWidth="200.0" />
-            <Button mnemonicParsing="false" onAction="#addProduct" text="Add product" />
+            <TextField fx:id="txtName" />
+            <Button mnemonicParsing="false" onAction="#createInventory" text="Create inventory" />
          </children>
       </VBox>
    </bottom>
-   <right>
-      <VBox prefHeight="104.0" prefWidth="26.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#increaseQuantity" text="+" />
-            <Button mnemonicParsing="false" onAction="#decreaseQuantity" text="-" />
-         </children>
-      </VBox>
-   </right>
-   <top>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Search: " />
-            <TextField fx:id="txtSearch" text="Enter item here" />
-            <Button mnemonicParsing="false" onAction="#searchItems" text="Search" />
-         </children>
-      </HBox>
-   </top>
 </BorderPane>

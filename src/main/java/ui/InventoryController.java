@@ -3,20 +3,19 @@ package ui;
 import domain.Product;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import service.Service;
+import service.InventoryService;
 import util.ProductException;
 
 import java.sql.SQLException;
 
-public class Controller {
+public class InventoryController {
 
-  private final Service service;
+  private final InventoryService inventoryService;
   private boolean filtered;
   private String filter;
   @FXML TableView<Product> tblProducts;
@@ -27,8 +26,8 @@ public class Controller {
   @FXML TextField txtQuantity;
   @FXML TextField txtSearch;
 
-  public Controller() {
-    service = new Service();
+  public InventoryController() {
+    inventoryService = new InventoryService();
     filtered = false;
     filter = "";
   }
@@ -43,11 +42,11 @@ public class Controller {
 
   public void getAllProducts() {
     filtered = false;
-    tblProducts.setItems(FXCollections.observableList(service.getProducts()));
+    tblProducts.setItems(FXCollections.observableList(inventoryService.getProducts()));
   }
 
   public void getFilteredProducts() {
-    tblProducts.setItems(FXCollections.observableList(service.getFilteredProducts(filter)));
+    tblProducts.setItems(FXCollections.observableList(inventoryService.getFilteredProducts(filter)));
   }
 
   public void updateTable() {
@@ -60,7 +59,7 @@ public class Controller {
 
   public void addProduct() {
     try {
-      service.addProduct(new Product(txtName.getText().trim(), Integer.parseInt(txtQuantity.getText()), null));
+      inventoryService.addProduct(new Product(txtName.getText().trim(), Integer.parseInt(txtQuantity.getText()), null));
     } catch (SQLException ex) {
       throw new ProductException("Something went wrong, try again", ex);
     }
@@ -69,13 +68,13 @@ public class Controller {
 
   public void increaseQuantity() {
     Product product = tblProducts.getSelectionModel().getSelectedItem();
-    service.changeQuantity(product, 1);
+    inventoryService.changeQuantity(product, 1);
     updateTable();
   }
 
   public void decreaseQuantity() {
     Product product = tblProducts.getSelectionModel().getSelectedItem();
-    service.changeQuantity(product, -1);
+    inventoryService.changeQuantity(product, -1);
     updateTable();
   }
 
@@ -83,5 +82,9 @@ public class Controller {
     filter = txtSearch.getText();
     filtered = true;
     updateTable();
+  }
+
+  public void emptyText() {
+    txtSearch.setText("");
   }
 }
