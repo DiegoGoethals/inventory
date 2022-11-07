@@ -6,10 +6,12 @@ public class Product {
 
   private final String name;
   private int quantity;
+  private String image;
 
-  public Product(String name, int quantity) {
+  public Product(String name, int quantity, String image) {
     this.name = name;
     this.quantity = quantity;
+    this.image = Objects.requireNonNullElse(image, "/images/no_image_available.png");
   }
 
   public String getName() {
@@ -18,6 +20,10 @@ public class Product {
 
   public int getQuantity() {
     return quantity;
+  }
+
+  public String getImage() {
+    return image;
   }
 
   @Override

@@ -14,6 +14,7 @@
       <TableView fx:id="tblProducts" prefHeight="348.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <columns>
             <TableColumn fx:id="tblclmName" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="tblclmImage" prefWidth="75.0" text="Image" />
             <TableColumn fx:id="tblclmQuantity" prefWidth="75.0" text="Quantity" />
          </columns></TableView>
    </center>

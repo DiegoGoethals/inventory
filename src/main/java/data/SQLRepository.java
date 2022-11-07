@@ -52,7 +52,7 @@ public class SQLRepository {
 
   private Product resultSetToProduct(ResultSet rs) throws SQLException {
     return new Product(rs.getString("name"),
-      rs.getInt("quantity"));
+      rs.getInt("quantity"), rs.getString("image"));
   }
 
   public boolean checkIfExists(String name) throws SQLException {
